@@ -5,14 +5,13 @@ import io  from 'socket.io-client'
 const Send = () => {
     let [roomName,setRoomName] = useState()
     let [roomStat,setRoomStat ] = useState()
-    let [listRoom,setListRoom] = useState([])
 
     const socket = io.connect('http://localhost:3001/web-socket/home',{
     })
+
     let createRoom = () => {
         setRoomName('')
-        socket.emit('createRoom',{roomType: "public",roomName: roomName,players: "tes"})
-     
+        socket.emit('createRoom',{roomType: roomStat,roomName: roomName,players: "tes"})
     }
 
   

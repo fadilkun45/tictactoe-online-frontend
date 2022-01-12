@@ -43,7 +43,7 @@
     <script>
         const socket = io('http://localhost:3001')
 
-        socket.on('send',(data) => {
+        socket.on('createRoom',(data) => {
             console.log(data)
         })
 
