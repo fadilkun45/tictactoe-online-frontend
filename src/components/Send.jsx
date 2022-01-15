@@ -6,12 +6,17 @@ const Send = () => {
     let [roomName,setRoomName] = useState()
     let [roomStat,setRoomStat ] = useState()
 
-    const socket = io.connect('http://localhost:3001/web-socket/home',{
+    const socket = io.connect('http://localhost:3001',{
     })
 
     let createRoom = () => {
         setRoomName('')
-        socket.emit('createRoom',{roomType: roomStat,roomName: roomName,players: "tes"})
+        socket.emit('createRoom', {
+            roomType: roomStat,
+            roomName: roomName,
+            players: "tes",
+            Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`
+        })
     }
 
   

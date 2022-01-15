@@ -5,7 +5,7 @@ import ImputModal from './InputModal'
 import checkTab from '../utilites/checkTab'
 
 const Home = () => {
-    const socket = io.connect('http://localhost:3001/',{
+    const socket = io.connect('http://localhost:3001',{
         
     })
 
@@ -24,7 +24,7 @@ const Home = () => {
     },[socket])
 
     useEffect(() => {
-        if(localStorage.getItem('tokensUser')){
+        if(localStorage.getItem('accessToken')){
             console.log('true')
             setAuth(true)
             setShowModal(false)
@@ -37,17 +37,21 @@ const Home = () => {
     },[])
 
     const setUsername = (username) => {
-        fetch("http://localhost:3001/users/auth", {
+        console.log(username);
+        console.log(JSON.stringify(username))
+        fetch("http://localhost:3001/api/users/auth", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(username),
+            body: JSON.stringify({ username }),
           })
         .then((response) => response.json())
-        .then((json) => {
-            console.log(json)
-            setShowModal(false)
-            setAuth(true)
-            localStorage.setItem('tokensUser',JSON.stringify(json))
+        .then((response) => {
+            console.log(response)
+            if (response.data.accessToken) {
+                setShowModal(false)
+                setAuth(true)
+                localStorage.setItem('accessToken', response.data.accessToken);
+            }
          })
     }
 
@@ -72,8 +76,8 @@ const Home = () => {
                         listRoom?.map((data) => (
                             <div className="flex mb-5 px-2 rounded-md py-2 bg-stone-600 text-white justify-between cursor-pointer">
                             <p className="text-base font-bold">{data.roomName}</p>
-                            <p className="text-base font-bold">{data.roomId}</p>
-                            <p className="text-base font-bold">{data.players}</p>
+                            <p className="text-base font-bold">{data.roomUuid}</p>
+                            <p className="text-base font-bold">{'data.players'}</p>
                         </div>
                         ))
                     }
