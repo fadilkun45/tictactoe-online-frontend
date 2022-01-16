@@ -23,8 +23,7 @@ const Send = () => {
             Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`
         })
         
-        socket.on('createRoom',(data) => {
-            let res = data
+        socket.on('createRoom',(res) => {
             console.log(res)
             console.log(token)
                if(res.creator == token ){
