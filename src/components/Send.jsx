@@ -1,15 +1,20 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useState } from 'react/cjs/react.development'
 import io  from 'socket.io-client'
+import { toast } from 'react-toastify'
 
 const Send = () => {
     let [roomName,setRoomName] = useState()
     let [roomStat,setRoomStat ] = useState()
+    let token = localStorage.getItem('accessToken')
+
+    let navigate = useNavigate()
 
     const socket = io.connect('http://localhost:3001',{
     })
 
-    let createRoom = () => {
+    let createRoom = async () => {
         setRoomName('')
         socket.emit('createRoom', {
             roomType: roomStat,
@@ -17,7 +22,20 @@ const Send = () => {
             players: "tes",
             Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`
         })
+        
+        socket.on('createRoom',(data) => {
+            let res = data
+            console.log(res)
+            console.log(token)
+               if(res.creator == token ){
+                navigate(`/waiting/${res.roomUuid}`)
+               }else{
+                   toast.error('create new room now')
+               }
+        })
+    
     }
+
 
   
     return (

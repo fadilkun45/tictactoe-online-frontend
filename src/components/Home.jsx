@@ -2,17 +2,15 @@ import React, { useState,useEffect } from 'react'
 import  io from 'socket.io-client'
 import Send from './Send'
 import ImputModal from './InputModal'
-import checkTab from '../utilites/checkTab'
 
-const Home = () => {
+import ListRoomCard from './ListRoomCard'
+
+const Home = ({auth,otherTab,showModal,setShowModal,setAuth}) => {
     const socket = io.connect('http://localhost:3001',{
         
     })
 
-
-    let [showModal,setShowModal] = useState(true)
-    let [auth,setAuth] = useState(false)
-    let [otherTab,setOtherTab] = useState(false)
+  
 
     let [listRoom,setListRoom] = useState([])
 
@@ -23,18 +21,18 @@ const Home = () => {
         })
     },[socket])
 
-    useEffect(() => {
-        if(localStorage.getItem('accessToken')){
-            console.log('true')
-            setAuth(true)
-            setShowModal(false)
-           if(!checkTab()){
-            setOtherTab(false)
-           }else{
-            setOtherTab(true)
-           }
-        }
-    },[])
+    // useEffect(() => {
+    //     if(localStorage.getItem('accessToken')){
+    //         console.log('true')
+    //         setAuth(true)
+    //         setShowModal(false)
+    //        if(!checkTab()){
+    //         setOtherTab(false)
+    //        }else{
+    //         setOtherTab(true)
+    //        }
+    //     }
+    // },[])
 
     const setUsername = (username) => {
         console.log(username);
@@ -74,11 +72,7 @@ const Home = () => {
                     
                     {
                         listRoom?.map((data) => (
-                            <div className="flex mb-5 px-2 rounded-md py-2 bg-stone-600 text-white justify-between cursor-pointer">
-                            <p className="text-base font-bold">{data.roomName}</p>
-                            <p className="text-base font-bold">{data.roomUuid}</p>
-                            <p className="text-base font-bold">{'data.players'}</p>
-                        </div>
+                            <ListRoomCard roomName={data.roomName} roomUuid={data.roomUuid} />
                         ))
                     }
                     </div>  
