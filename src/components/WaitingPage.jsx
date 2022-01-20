@@ -3,10 +3,12 @@ import {useEffect} from 'react'
 import io from 'socket.io-client'
 import axios from 'axios'
 import {useParams} from 'react-router-dom'
+import { useState } from 'react/cjs/react.development'
 
 const WaitingPage = () => {
     const navigate = useNavigate()
     const {id} = useParams()
+    const [user,setUser] = useState([])
 
     let backHandle = () => {
         navigate('/')
@@ -15,13 +17,8 @@ const WaitingPage = () => {
     const socket = io.connect('http://localhost:3001',{
     })
 
-    useEffect(() => {
-        // axios.get(`http://localhost:3001/api/rooms/${id}`,
-        // {
-        //     headers: {
-        //     Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`
-        // }
-        //     } ).then((res) => console.log(res)).catch((err) => console.log(err))
+    useEffect(() => {        
+
         fetch(`http://localhost:3001/api/rooms/${id}`,{
             method: 'GET',
             headers: {
@@ -29,9 +26,17 @@ const WaitingPage = () => {
             }
         })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(response => 
+            setUser(response?.data?.players)
+        )
         .catch((err) => console.log(err))
     },[])
+
+    useEffect(() => {
+        socket.emit(`joinRoom/${id}`,(response) => {
+          console.log(response)
+        })
+    },[socket])
 
     return (
        <div className="bg-stone-500">
@@ -45,15 +50,22 @@ const WaitingPage = () => {
 
                         <div className="flex flex-col py-2 px-4 mt-2 bg-stone-500 h-60">
 
-                        <div className=" bg-stone-600 rounded-md py-3 mb-5">
-                            <p className='text-center text-white text-xl'>nama player</p>
+                      {
+                          user?.map((data) => (
+                            <div className=" bg-stone-600 rounded-md py-3 mb-5">
+                            <p className='text-center text-white text-xl'>{data?.username}</p>
                             <p className="text-green-500 text-base text-center mt-2">ready</p>
                         </div>
-
-                        <div className=" bg-stone-600 rounded-md py-3 mb-5">
+                          ))
+                      }
+                                                {/* <div className=" bg-stone-600 rounded-md py-3 mb-5">
                             <p className='text-center text-white text-xl'>nama player</p>
                             <p className="text-red-500 text-base text-center mt-2">ready</p>
-                        </div>
+                            </div> 
+                            <div className=" bg-stone-600 rounded-md py-3 mb-5">
+                            <p className='text-center text-white text-xl'>nama player</p>
+                            <p className="text-red-500 text-base text-center mt-2">ready</p>
+                            </div>  */}
                         </div>
                    </div>
                    <div className="w-3/6 flex flex-col py-2 px-5 bg-stone-600 rounded-md">
@@ -69,3 +81,4 @@ const WaitingPage = () => {
 }
 
 export default WaitingPage
+

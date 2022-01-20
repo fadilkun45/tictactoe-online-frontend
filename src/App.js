@@ -3,6 +3,7 @@ import { useEffect, useState } from "react/cjs/react.development"
 import Home from "./components/Home"
 import WaitingPage from "./components/WaitingPage"
 import checkTab from './utilites/checkTab'
+import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
 
 
     return (
+     <>
         <BrowserRouter>
         <Routes>
             
@@ -34,18 +36,10 @@ const App = () => {
             <Route path="/waiting/:id" element={<WaitingPage />} />
 
         </Routes>
-        <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        />
         </BrowserRouter>
+
+        <ToastContainer />
+     </>
     )
 }
 

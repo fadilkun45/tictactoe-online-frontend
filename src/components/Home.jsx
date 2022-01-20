@@ -21,18 +21,18 @@ const Home = ({auth,otherTab,showModal,setShowModal,setAuth}) => {
         })
     },[socket])
 
-    // useEffect(() => {
-    //     if(localStorage.getItem('accessToken')){
-    //         console.log('true')
-    //         setAuth(true)
-    //         setShowModal(false)
-    //        if(!checkTab()){
-    //         setOtherTab(false)
-    //        }else{
-    //         setOtherTab(true)
-    //        }
-    //     }
-    // },[])
+    useEffect(() => {
+        fetch('http://localhost:3001/api/rooms',{
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`
+            }
+        })
+        .then((res) => res.json())
+        .then(data => setListRoom(data?.data?.roomsArray)) 
+    },[])
+
+    
 
     const setUsername = (username) => {
         console.log(username);
@@ -51,6 +51,7 @@ const Home = ({auth,otherTab,showModal,setShowModal,setAuth}) => {
                 localStorage.setItem('accessToken', response.data.accessToken);
             }
          })
+         
     }
 
     return (
