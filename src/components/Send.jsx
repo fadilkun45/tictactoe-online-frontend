@@ -29,7 +29,7 @@ const Send = () => {
                if(res.creator == token ){
                 navigate(`/waiting/${res.roomUuid}`)
                }else{
-                   toast.error('create new room now')
+                //    toast.error('create new room now')
                }
         })
     

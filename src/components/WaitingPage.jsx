@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import {useEffect} from 'react'
+import { useBeforeunload } from 'react-beforeunload'
 import io from 'socket.io-client'
 import axios from 'axios'
 import {useParams} from 'react-router-dom'
@@ -9,13 +10,26 @@ const WaitingPage = () => {
     const navigate = useNavigate()
     const {id} = useParams()
     const [user,setUser] = useState([])
-
-    let backHandle = () => {
-        navigate('/')
-    }
-
     const socket = io.connect('http://localhost:3001',{
     })
+
+    let backHandle = (roomUuid) => {
+        socket.emit('leaveRoom',{
+            Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`,
+            roomUuid
+        })
+            navigate('/')
+    }
+
+    useBeforeunload((event) => {
+        event.preventDefault()
+        socket.emit('leaveRoom',{
+            Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`,
+            roomUuid: id
+        })
+    });
+
+
 
     useEffect(() => {        
 
@@ -33,8 +47,14 @@ const WaitingPage = () => {
     },[])
 
     useEffect(() => {
-        socket.emit(`joinRoom/${id}`,(response) => {
-          console.log(response)
+        console.log(user)
+        socket.on(`joinRoom/${id}`,(response) => {
+            setUser(response?.data?.players)
+        })
+
+        socket.on(`room/${id}/playerLeave`,(response) => {
+            // console.log(response?.data?.players)
+            setUser(response?.data?.players)
         })
     },[socket])
 
@@ -74,7 +94,7 @@ const WaitingPage = () => {
                </div>
 
                <button className='text-xl w-3/6 text-white mt-6 text-center px-4 py-3 bg-stone-600 mx-auto'>Ready ?</button>
-               <button onClick={backHandle} className='text-xl w-3/6 text-white mt-6 text-center px-4 py-3 bg-stone-600 mx-auto'>back to home</button>
+               <button onClick={() => backHandle(id)} className='text-xl w-3/6 text-white mt-6 text-center px-4 py-3 bg-stone-600 mx-auto'>back to home</button>
            </div>
        </div>
     )

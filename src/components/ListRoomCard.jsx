@@ -27,7 +27,7 @@ const ListRoomCard = ({roomName,roomUuid}) => {
               toast.error(data?.message)
             }else{
                 console.log(data)
-                socket.on(`joinRoom`,{
+                socket.emit(`joinRoom`,{
                     Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`,
                     roomUuid: roomId
                 })

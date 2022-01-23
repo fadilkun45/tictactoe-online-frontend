@@ -19,6 +19,10 @@ const Home = ({auth,otherTab,showModal,setShowModal,setAuth}) => {
             setListRoom([...listRoom, data])
             console.log(data)
         })
+
+        socket.on('deleteRoom',(data) => {
+            setListRoom(data?.roomsArray)
+        })
     },[socket])
 
     useEffect(() => {
