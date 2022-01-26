@@ -68,7 +68,7 @@ const WaitingPage = () => {
         console.log(response)
         setUser(response?.players)
         if(response?.roomPlaying == true){
-            // navigate('/play')
+            navigate('/play')
         }
     })
 
