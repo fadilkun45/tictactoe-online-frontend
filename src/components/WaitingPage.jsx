@@ -21,6 +21,14 @@ const WaitingPage = () => {
             navigate('/')
     }
 
+    let readyHandle = (roomUuid) => {
+        socket.emit('playerReady',{
+            Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`,
+            roomUuid,
+            ready: true
+        })
+    }
+
     useBeforeunload((event) => {
         event.preventDefault()
         socket.emit('leaveRoom',{
@@ -53,9 +61,17 @@ const WaitingPage = () => {
         })
 
         socket.on(`room/${id}/playerLeave`,(response) => {
-            // console.log(response?.data?.players)
             setUser(response?.data?.players)
         })
+
+        socket.on(`room/${id}/playerReady`,(response) => {
+        console.log(response)
+        setUser(response?.players)
+        if(response?.roomPlaying == true){
+            // navigate('/play')
+        }
+    })
+
     },[socket])
 
     return (
@@ -74,7 +90,7 @@ const WaitingPage = () => {
                           user?.map((data) => (
                             <div className=" bg-stone-600 rounded-md py-3 mb-5">
                             <p className='text-center text-white text-xl'>{data?.username}</p>
-                            <p className="text-green-500 text-base text-center mt-2">ready</p>
+                           {data.ready? <p className="text-green-500 text-base text-center mt-2">ready</p> :  <p className="text-red-500 text-base text-center mt-2">ready</p> }
                         </div>
                           ))
                       }
@@ -93,7 +109,7 @@ const WaitingPage = () => {
                    </div>
                </div>
 
-               <button className='text-xl w-3/6 text-white mt-6 text-center px-4 py-3 bg-stone-600 mx-auto'>Ready ?</button>
+               <button onClick={() => readyHandle(id)} className='text-xl w-3/6 text-white mt-6 text-center px-4 py-3 bg-stone-600 mx-auto'>Ready ?</button>
                <button onClick={() => backHandle(id)} className='text-xl w-3/6 text-white mt-6 text-center px-4 py-3 bg-stone-600 mx-auto'>back to home</button>
            </div>
        </div>
