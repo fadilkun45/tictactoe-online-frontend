@@ -30,7 +30,6 @@ const WaitingPage = () => {
     }
 
     useBeforeunload((event) => {
-        event.preventDefault()
         socket.emit('leaveRoom',{
             Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`,
             roomUuid: id
@@ -40,7 +39,6 @@ const WaitingPage = () => {
 
 
     useEffect(() => {        
-
         fetch(`http://localhost:3001/api/rooms/${id}`,{
             method: 'GET',
             headers: {
@@ -68,7 +66,7 @@ const WaitingPage = () => {
         console.log(response)
         setUser(response?.players)
         if(response?.roomPlaying == true){
-            navigate('/play')
+            navigate(`/playing/${id}`)
         }
     })
 

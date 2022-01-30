@@ -5,6 +5,7 @@ import WaitingPage from "./components/WaitingPage"
 import checkTab from './utilites/checkTab'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Playing from "./components/Playing"
 
 const App = () => {
     let [auth,setAuth] = useState(false)
@@ -16,7 +17,6 @@ const App = () => {
         if(localStorage.getItem('accessToken')){
             console.log('true')
             setAuth(true)
-
             setShowModal(false)
            if(!checkTab()){
             setOtherTab(false)
@@ -34,6 +34,7 @@ const App = () => {
             
             <Route path="/" index element={<Home auth={auth} setAuth={setAuth} setShowModal={setShowModal} otherTab={otherTab} showModal={showModal}/>} />
             <Route path="/waiting/:id" element={<WaitingPage />} />
+            <Route path='/playing/:id' element={<Playing />} />
 
         </Routes>
         </BrowserRouter>
