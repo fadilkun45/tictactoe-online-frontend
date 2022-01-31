@@ -4,7 +4,7 @@ import { useBeforeunload } from 'react-beforeunload'
 import io from 'socket.io-client'
 import axios from 'axios'
 import {useParams} from 'react-router-dom'
-import { useState } from 'react/cjs/react.development'
+import { useState } from 'react'
 
 const WaitingPage = () => {
     const navigate = useNavigate()
@@ -29,12 +29,12 @@ const WaitingPage = () => {
         })
     }
 
-    useBeforeunload((event) => {
-        socket.emit('leaveRoom',{
-            Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`,
-            roomUuid: id
-        })
-    });
+    // useBeforeunload((event) => {
+    //     socket.emit('leaveRoom',{
+    //         Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`,
+    //         roomUuid: id
+    //     })
+    // });
 
 
 
@@ -70,7 +70,7 @@ const WaitingPage = () => {
         }
     })
 
-    },[socket])
+    },[socket,id])
 
     return (
        <div className="bg-stone-500">

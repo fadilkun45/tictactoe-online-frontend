@@ -1,5 +1,5 @@
 import { BrowserRouter,Route,Routes } from "react-router-dom"
-import { useEffect, useState } from "react/cjs/react.development"
+import { useEffect, useState } from "react"
 import Home from "./components/Home"
 import WaitingPage from "./components/WaitingPage"
 import checkTab from './utilites/checkTab'
@@ -17,12 +17,12 @@ const App = () => {
         if(localStorage.getItem('accessToken')){
             console.log('true')
             setAuth(true)
-            setShowModal(false)
-           if(!checkTab()){
-            setOtherTab(false)
-           }else{
-            setOtherTab(true)
-           }
+            // setShowModal(false)
+        //    if(!checkTab()){
+        //     setOtherTab(false)
+        //    }else{
+        //     setOtherTab(true)
+        //    }
         }
     },[])
 

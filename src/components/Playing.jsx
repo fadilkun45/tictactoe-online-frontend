@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import io from "socket.io-client";
 import { useParams } from "react-router-dom";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
 import CardTic from "./CardTic";
 
 const Playing = () => {
@@ -19,10 +19,9 @@ const Playing = () => {
     socket.on(`room/${id}/playing/playerMove`, (res) => {
       console.log(res)
       setCardArray(res?.tictactoeArray)
-      setPlayerTurn(res?.playerTurn)
     });
     console.log(cardArray)
-  }, [socket]);
+  },[]);
 
   return (
     <div className="bg-stone-500 text-white pt-10 h-screen w-full">
