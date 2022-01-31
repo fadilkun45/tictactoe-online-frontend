@@ -1,10 +1,7 @@
 import React from 'react';
-import  io from 'socket.io-client'
 import {toast} from 'react-toastify'
 
-const CardTic = ({data,roomId,index,disable}) => {
-    const socket = io.connect('http://localhost:3001')
-
+const CardTic = ({data,roomId,index,disable,socket}) => {
     const playerClick = (data) => {
         disable ? toast.error('not your turn') : socket.emit('playerMove',{
           Authorization: `Bearer JWT ${localStorage.getItem('accessToken')}`,
