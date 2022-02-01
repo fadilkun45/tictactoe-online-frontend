@@ -1,11 +1,9 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { io } from 'socket.io-client'
 
-const ListRoomCard = ({roomName,roomUuid}) => {
+const ListRoomCard = ({roomName,roomUuid,socket}) => {
     const navigate = useNavigate()
-    const socket = io.connect('http://localhost:3001',{})
 
 
     // useEffect(() => {

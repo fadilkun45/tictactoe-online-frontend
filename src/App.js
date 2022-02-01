@@ -17,12 +17,12 @@ const App = () => {
         if(localStorage.getItem('accessToken')){
             console.log('true')
             setAuth(true)
-            // setShowModal(false)
-        //    if(!checkTab()){
-        //     setOtherTab(false)
-        //    }else{
-        //     setOtherTab(true)
-        //    }
+            setShowModal(false)
+           if(!checkTab()){
+            setOtherTab(false)
+           }else{
+            setOtherTab(true)
+           }
         }
     },[])
 

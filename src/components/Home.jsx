@@ -34,7 +34,7 @@ const Home = ({auth,otherTab,showModal,setShowModal,setAuth}) => {
         })
         .then((res) => res.json())
         .then(data => setListRoom(data?.data?.roomsArray)) 
-    },[])
+    },[setAuth])
 
     
 
@@ -77,7 +77,7 @@ const Home = ({auth,otherTab,showModal,setShowModal,setAuth}) => {
                     
                     {
                         listRoom?.map((data) => (
-                            <ListRoomCard roomName={data.roomName} roomUuid={data.roomUuid} />
+                            <ListRoomCard socket={socket} roomName={data.roomName} roomUuid={data.roomUuid} />
                         ))
                     }
                     </div>  
