@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import io from "socket.io-client";
-import { useParams } from "react-router-dom";
+import { useHref, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import CardTic from "./CardTic";
+import InputModal from "./InputModal";
 
 const Playing = () => {
   const { id } = useParams();
+  const navigate = useNavigate()
   const socket = io.connect("http://localhost:3001");
   const [player,setPlayerTurn] = useState()
+  const [playerWin,setPlayerWin] = useState(null)
   const [cardArray, setCardArray] = useState([
     [0,0,0],
     [0,0,0],
@@ -34,12 +37,22 @@ const Playing = () => {
       console.log(res)
       setCardArray(res?.tictactoeArray)
       setPlayerTurn(res?.playerTurn)
+      setPlayerWin(res?.playerWin)
     });
     console.log(cardArray)
   },[]);
 
+ const backHandle = () => {
+   navigate('/')
+ }
+
+  useEffect(() => {
+
+  },[socket])
+
   return (
-    <div className="bg-stone-500 text-white pt-10 h-screen w-full">
+    <>
+        <div className="bg-stone-500 text-white pt-10 h-screen w-full">
       <div className="container flex flex-col mx-auto bg-stone-600 py-6 px-6 rounded-md">
         <h1 className="text-2xl text-center">NOW PLAYING : {player == localStorage.getItem('accessToken') ? 'YOU'  : 'OPPONENT'}</h1>
        {
@@ -67,6 +80,19 @@ const Playing = () => {
        }
       </div>
     </div>
+
+       {
+         playerWin == null ? "" : <div className="z-20 flex justify-center items-center fixed top-0 h-screen w-full ">
+           <div className="absolute opacity-30 w-full h-screen top-0 bg-slate-600">
+
+           </div>
+           <div className="bg-white w-2/6 text-2xl text-center px-6 py-10 rounded-xl z-30">{
+             playerWin == localStorage.getItem('accessToken') ? 'you' : 'opponent'
+           } win <div onClick={backHandle} className={`${playerWin == localStorage.getItem('accessToken') ? 'bg-green-500' : 'bg-red-500'}  text-center py-2 mt-5 text-white`}>
+             to home</div></div>
+         </div>
+       }
+    </>
   );
 };
 
