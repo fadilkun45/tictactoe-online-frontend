@@ -77,7 +77,7 @@ const Home = ({auth,otherTab,showModal,setShowModal,setAuth}) => {
                     
                     {
                         listRoom?.map((data) => (
-                            <ListRoomCard socket={socket} roomName={data.roomName} roomUuid={data.roomUuid} />
+                            <ListRoomCard socket={socket} roomName={data.roomName} roomUuid={data.roomUuid} playerLength={data.players.length}/>
                         ))
                     }
                     </div>  

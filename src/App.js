@@ -18,11 +18,11 @@ const App = () => {
             console.log('true')
             setAuth(true)
             setShowModal(false)
-           if(!checkTab()){
-            setOtherTab(false)
-           }else{
-            setOtherTab(true)
-           }
+        //    if(!checkTab()){
+        //     setOtherTab(false)
+        //    }else{
+        //     setOtherTab(true)
+        //    }
         }
     },[])
 

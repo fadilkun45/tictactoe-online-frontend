@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-const ListRoomCard = ({roomName,roomUuid,socket}) => {
+const ListRoomCard = ({roomName,roomUuid,socket,playerLength}) => {
     const navigate = useNavigate()
 
 
@@ -38,7 +38,7 @@ const ListRoomCard = ({roomName,roomUuid,socket}) => {
         <div  onClick={() => {joinHandle(roomUuid)}} className="flex mb-5 px-2 rounded-md py-2 bg-stone-600 text-white justify-between cursor-pointer">
             <p className="text-base font-bold">{roomName}</p>
             <p className="text-base font-bold">{roomUuid}</p>
-            <p className="text-base font-bold">{'data.players'}</p>
+            <p className="text-base font-bold">{playerLength}</p>
         </div>
     )
 }
